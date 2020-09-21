@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using JobBoardApp.Models.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobBoardApp.Data
 {
@@ -8,5 +9,10 @@ namespace JobBoardApp.Data
         : base(options) { }
 
         public DbSet<Models.JobBoard> BoardGames { get; set; }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new JobBoardConfiguration());
+        }
     }
 }
