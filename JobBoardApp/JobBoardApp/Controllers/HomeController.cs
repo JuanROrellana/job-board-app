@@ -23,20 +23,45 @@ namespace JobBoardApp.Controllers
 
         public IActionResult Index()
         {
-            var domesticAccounts = _repoWrapper.JobBoard.FindAll();
-            var test = domesticAccounts.ToList();
-            return View();
+            var test = _repoWrapper.JobBoard.FindAll();
+            return View(_repoWrapper.JobBoard.FindAll());
         }
-
-        public IActionResult Privacy()
+        
+        public IActionResult Create()
         {
             return View();
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        
+        [HttpPost]
+        public IActionResult Create(JobBoard model)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            _repoWrapper.JobBoard.Create(model);
+            _repoWrapper.Save();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(Guid id)
+        {
+            return View(_repoWrapper.JobBoard
+                .FindByCondition(x => x.Id.Equals(id))
+                .FirstOrDefault());
+        }
+        
+        [HttpPost]
+        public IActionResult Edit(JobBoard model)
+        {
+            _repoWrapper.JobBoard.Update(model);
+            _repoWrapper.Save();
+            return RedirectToAction("Index");
+        }
+        
+        public IActionResult Delete(Guid id)
+        {
+            _repoWrapper.JobBoard.Delete(_repoWrapper.JobBoard
+                .FindByCondition(x => x.Id.Equals(id))
+                .FirstOrDefault());
+            _repoWrapper.Save();
+            return RedirectToAction("Index");
         }
     }
 }

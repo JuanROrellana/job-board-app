@@ -1,0 +1,18 @@
+﻿@model JobBoard
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Job Board Application</h1>
+    <br>
+    
+    <div class="row align-content-center">
+            <form asp-controller="Home" asp-action="Edit" method="post">
+                    JobTitle:  <input asp-for="JobTitle" /> <br />
+                    Job:  <input asp-for="Job" /> <br />
+                    Description:  <input asp-for="Description" /> <br />
+                    <button type="submit">Save</button>
+                </form>
+        </div>
+</div>
